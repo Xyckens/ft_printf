@@ -10,20 +10,17 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "libftprintf.h"
 
-char	ft_alt_putstr_fd(char *s, int fd)
+int	ft_putstr_fd(char *s, int fd)
 {
 	int	count;
 
 	count = 0;
-	while (s[count] != '\0' && s[count] != '%')
+	while (s[count] != '\0')
 	{
-		ft_alt_putchar_fd(s[count], fd);
+		ft_putchar_fd(s[count], fd);
 		count++;
 	}
-	if (s[count] == '%')
-		return (s[count + 1])
-	else
-		return (NULL);
+	return (count);
 }

@@ -19,6 +19,11 @@
 # include <string.h>
 # include <stdarg.h>
 
-int	ft_printf(const char *, ...);
+int		ft_printf(const char *fds, ...);
+void	ft_putchar_fd(char c, int fd);
+int		ft_print_pointer_fd(unsigned long long s, int fd);
+void		ft_putnbr_fd(int n, int fd);
+int		ft_putnbr_hex_fd(unsigned int hex, int fd, int p);
+int		ft_putstr_fd(char *s, int fd);
 
 #endif

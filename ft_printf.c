@@ -13,56 +13,64 @@
 #include "libftprintf.h"
 #include <stdio.h>
 
-void	ft_encontreipercent(char p, void *s)
+static int	ft_encontreipercent(char p, va_list args, int fd)
 {
 	if (p == 'c')
-		ft_putchar_fd((char)s[0], 1);
+	{
+		ft_putchar_fd(va_arg(args, int), fd);
+		return(1);
+	}
 	else if (p == 's')
-		ft_putstr_fd((char *)s, 0);
+		return(ft_putstr_fd(va_arg(args, char *), fd));
 	else if (p == 'p')
-		ft_print_pointer_fd(s, 0);
+		return(ft_print_pointer_fd(va_arg(args, unsigned long long), fd));
 	else if (p == 'd')
-		ft_putnbr_fd( (int)s[0], 0);
+		return(ft_putnbr_fd(va_arg(args, int), fd));
 	else if (p == 'i')
-		ft_putnbr_base_fd((int *)s, 10, 0);
+		return(ft_putnbr_fd(va_arg(args, int), fd));
 	else if (p == 'u')
-		ft_putnbr_base_fd((unsigned int *)s, 10, 0);
+		return(ft_putnbr_fd(va_arg(args, unsigned int), fd));
 	else if (p == 'x')
-		ft_putnbr_base_low_fd((int *)s, 16, 0);
+		return(ft_putnbr_hex_fd(va_arg(args, unsigned int), fd, p));
 	else if (p == 'X')
-		ft_putnbr_base_up_fd((int *)s, 16, 0);
+		return(ft_putnbr_hex_fd(va_arg(args, unsigned int), fd, p));
 	else if (p == '%')
-		write(0, '%', 1);
+		return(ft_putchar_fd('%', fd));
+	else
+		return(ft_putstr_fd("erro", fd));
 
 }
 int	ft_printf(const char *fds, ...)
 {
 	va_list	args;
-	va_list copy;
 	va_start(args, fds);
-	va_copy(copy, args);
 	int count;
+	int count2;
 
 	count = 0;
+	count2 = 0;
 	while (fds[count] != '\0')
 	{
 		if (fds[count] != '%')
-			ft_putchar_fd(fds[count], 0);
+			ft_putchar_fd(fds[count], 1);
 		if (fds[count] == '%')
 		{
-			ft_encontreipercent(fds[count + 1], va_arg(args, char *));
+			count2 += ft_encontreipercent(fds[count + 1], args, 1);
 			count++;
 		}
 		count++;
 	}
-	va_end(copy);
 	va_end(args);
-	return (0);
+	return (count + count2);
 }
-int main(void)
+/*int main(void)
 {
-	ft_printf("feasfs","aaaaa", "bbbbb");
+	int d = 364;
+	char c = 'L';
+	char *str = "era uma vez";
+	printf(" char         = %c\n str          = %s\n pointer      = %p\n dec          = %d\n int          = %i\n unsigned int = %u\n hexmin       = %x\n hexhigh      = %X\n percent      = %%\n ", c, str, str, d, d, d, d,d );
+	printf("\n\n meu printf\n");
+
+	ft_printf(" char         = %c\n str          = %s\n pointer      = %p\n dec          = %d\n int          = %i\n unsigned int = %u\n hexmin       = %x\n hexhigh      = %X\n percent      = %%\n", c, str, str, d, d, d, d, d);
 	return (0);
-}
-	/*printf("%s",va_arg(args,char *));
-	printf("%s",va_arg(args,char *));*/
+}*/

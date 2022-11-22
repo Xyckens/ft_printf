@@ -10,10 +10,25 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "libftprintf.h"
 
+static int	count_digits(unsigned int num)
+{
+	int	count;
+
+	count = 0;
+	while (num != 0)
+	{
+		num /= 10;
+		count++;
+	}
+	return (count);
+}
 void	ft_putnbr_fd(int n, int fd)
 {
+	int	len;
+
+	len = count_digits(n);
 	if (n == -2147483648)
 	{
 		ft_putchar_fd('-', fd);
