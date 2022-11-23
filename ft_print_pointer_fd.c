@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libftprintf.h"
+#include "ft_printf.h"
 
 static int	count_ptr(unsigned long long s)
 {
@@ -25,13 +25,12 @@ static int	count_ptr(unsigned long long s)
 	return (count);
 }
 
-int	ft_print_pointer_fd(unsigned long long s, int fd)
+int	ft_put_ptr(unsigned long long s, int fd)
 {
-
 	if (s >= 16)
 	{
-		ft_print_pointer_fd(s / 16, fd);
-		ft_print_pointer_fd(s % 16, fd);
+		ft_put_ptr(s / 16, fd);
+		ft_put_ptr(s % 16, fd);
 	}
 	else
 	{
@@ -41,4 +40,18 @@ int	ft_print_pointer_fd(unsigned long long s, int fd)
 			ft_putchar_fd(s - 10 + 'a', fd);
 	}
 	return (count_ptr(s));
+}
+int	ft_print_pointer_fd(unsigned long long s, int fd)
+{
+	int					len;
+
+	len = 0;
+	if (s == 0)
+	{
+		len += write(fd, "(nil)", 5);
+		return (len);
+	}
+	len = write(fd, "0x", 2);
+	len += ft_put_ptr(s,fd);
+	return (len);
 }

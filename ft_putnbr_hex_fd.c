@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libftprintf.h"
+#include "ft_printf.h"
 
 static int	count_hex_digits(unsigned int num)
 {
@@ -48,5 +48,5 @@ int	ft_putnbr_hex_fd(unsigned int hex, int fd, int p)
 		if (p == 'x')
 			ft_putchar_fd((hex - 10 + 'a'), fd);
 	}
-	return (len);
+	return (count_hex_digits(hex));
 }

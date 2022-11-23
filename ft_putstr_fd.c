@@ -10,13 +10,15 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libftprintf.h"
+#include "ft_printf.h"
 
 int	ft_putstr_fd(char *s, int fd)
 {
 	int	count;
 
 	count = 0;
+	if (!s)
+		return (write(fd, "(null)", 6));
 	while (s[count] != '\0')
 	{
 		ft_putchar_fd(s[count], fd);
